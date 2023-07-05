@@ -1,0 +1,36 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
+@model IEnumerable<GetAllCardsDto>;
+
+<table class="table table-bordered table-hover table-sm">
+    <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>@nameof(GetAllCardsDto.Term)</th>
+            <th>@nameof(GetAllCardsDto.Definition)</th>
+            <th>@nameof(GetAllCardsDto.EnglishLevel)</th>
+            <th>Deck:@nameof(GetAllCardsDto.DeckId)</th>
+            <th>Options:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            foreach(var card in Model)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td>@card.Term</td>
+                    <td>@card.Definition</td>
+                    <td>@card.EnglishLevel</td>
+                    <td>@card.DeckId</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-warning" asp-controller="Cards" asp-action="UpdateCard" asp-route-id="@card.Id">Update</a>
+                            <a class="btn btn-danger" asp-controller="Cards" asp-action="DeleteCard" asp-route-id="@card.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

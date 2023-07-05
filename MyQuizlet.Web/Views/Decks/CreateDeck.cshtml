@@ -1,0 +1,26 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Commands.CreateDeck;
+@model CreateDeckCommand;
+
+@{
+    ViewBag.Title = "Create deck";
+}
+
+<h1>Create deck</h1>
+
+<form asp-controller="Decks" asp-action="CreateDeck" method="post">
+    <div class="row justify-content-center">
+        <a class="btn btn-outline-primary"  asp-controller="Cards" asp-action="GetAllCards">Back to Cards List</a>
+        <div>
+            <label asp-for="DeckName" class="form-label">Deck Name:</label>
+            <input class="form-control" asp-for="DeckName" placeholder="Enter" />
+        </div>
+
+        <div>
+            <label asp-for="Description">Description:</label>
+            <input class="form-control" asp-for="Description" placeholder="Enter" />
+        </div>
+
+        <h5>Are you sure to create this deck?</h5>
+        <button class="btn btn-success">Create</button>
+    </div>
+</form>

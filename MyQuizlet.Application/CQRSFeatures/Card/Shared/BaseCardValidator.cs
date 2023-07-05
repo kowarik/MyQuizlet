@@ -10,32 +10,35 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Shared
 
         public BaseCardValidator(ICardsRepository cardsRepository, IDecksRepository decksRepository)
         {
-            RuleFor(p => p.Term)
+            RuleFor(c => c.Term)
                 .NotEmpty().WithMessage("{PropertyName} is required")
                 .NotNull()
-                .MaximumLength(100).WithMessage("{PropertyName} must be fewer than 100 characters");
+                //.MustAsync(CardTermUnique).WithMessage("Card term already exists")
+                .MaximumLength(100).WithMessage("{PropertyName} must be fewer than 100 characters")
+                .Matches("^[A-Za-zА-яа-я .]*$").WithMessage("{PropertyName} must have only alphabet characters, spaces, dots and commas");
 
-            RuleFor(p => p.Definition)
+            RuleFor(c => c.Definition)
                 .NotEmpty().WithMessage("{PropertyName} is required")
                 .NotNull()
-                .MaximumLength(100).WithMessage("{PropertyName} must be fewer than 100 characters");
+                .MaximumLength(100).WithMessage("{PropertyName} must be fewer than 100 characters")
+                .Matches("^[A-Za-zА-яа-я .]*$").WithMessage("{PropertyName} must have only alphabet characters, spaces, dots and commas");
 
-            RuleFor(q => q.DeckId)
+            RuleFor(c => c.EnglishLevel)
+                .NotEmpty().WithMessage("{PropertyName} is required")
+                .NotNull();
+
+            RuleFor(c => c.DeckId)
                 .MustAsync(DeckIsExists)
-                .WithMessage("Deck doesn`t exist");
-
-            RuleFor(q => q)
-                .MustAsync(CardTermUnique)
-                .WithMessage("Card term already exists");
+                .WithMessage("Deck doesn`t exist");                
 
             _cardsRepository = cardsRepository;
             _decksRepository = decksRepository;
         }
 
-        private async Task<bool> CardTermUnique(BaseCardDto command, CancellationToken token)
-        {
-            return await _cardsRepository.IsTermUniqueAsync(command.Term);
-        }
+        //private async Task<bool> CardTermUnique(string term, CancellationToken token)
+        //{
+        //    return await _cardsRepository.IsTermUniqueAsync(term);
+        //}
         private async Task<bool> DeckIsExists(Guid? deckId, CancellationToken token)
         {
             var deck = await _decksRepository.GetByIdAsync(deckId);

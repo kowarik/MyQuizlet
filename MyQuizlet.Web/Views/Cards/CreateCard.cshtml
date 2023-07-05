@@ -1,0 +1,37 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Commands.CreateCard;
+@using MyQuizlet.Domain.Enums;
+@model CreateCardCommand;
+
+@{
+    ViewBag.Title = "Create card";
+}
+
+<h1>Create card</h1>
+
+<form asp-controller="Cards" asp-action="CreateCard" method="post">
+    <div class="row justify-content-center">
+        <a class="btn btn-outline-primary"  asp-controller="Cards" asp-action="GetAllCards">Back to Cards List</a>
+        <div>
+            <label asp-for="Term" class="form-label">Term:</label>
+            <input class="form-control" asp-for="Term" placeholder="Enter" />
+        </div>
+
+        <div>
+            <label asp-for="Definition">Definition:</label>
+            <input class="form-control" asp-for="Definition" placeholder="Enter" />
+        </div>
+
+        <div>
+            <label asp-for="EnglishLevel">English Level:</label>
+            <select class="form-select" asp-for="EnglishLevel" asp-items="Html.GetEnumSelectList<EnglishLevel>()"></select>
+        </div>
+
+        <div>
+            <label asp-for="DeckId">Deck:</label>
+            <select class="form-select" asp-for="DeckId" asp-items="ViewBag.Decks"></select>
+        </div>
+
+        <h5>Are you sure to create this card?</h5>
+        <button class="btn btn-success">Create</button>
+    </div>
+</form>

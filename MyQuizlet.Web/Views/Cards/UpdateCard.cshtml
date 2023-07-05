@@ -1,0 +1,50 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Commands.UpdateCard;
+@using MyQuizlet.Domain.Enums;
+@model UpdateCardCommand;
+
+@{
+    ViewBag.Title = "Update card";
+}
+
+<h1>Update card</h1>
+
+<form asp-controller="Cards" asp-action="UpdateCard" method="post">
+    <div class="row justify-content-center">
+        <a class="btn btn-outline-primary"  asp-controller="Cards" asp-action="GetAllCards">Back to Cards List</a>
+
+        <input type="hidden" asp-for="Id" value="@ViewBag.Card.Id" />
+
+        <div>
+            <label asp-for="Term" class="form-label">Term:</label>
+            <input asp-for="Term" value="@ViewBag.Card.Term" class="form-control" placeholder="Enter" />
+        </div>
+
+        <div>
+            <label asp-for="Definition">Definition:</label>
+            <input asp-for="Definition" value="@ViewBag.Card.Definition" class="form-control" placeholder="Enter" />
+        </div>
+
+        <div>
+            <label asp-for="EnglishLevel">English Level:</label>
+            <select class="form-select" asp-for="EnglishLevel" >
+                @foreach (var item in Html.GetEnumSelectList<EnglishLevel>())
+                {
+                    @:<option @(item.Text == ViewBag.Card.EnglishLevel ? "selected" : "") value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label asp-for="DeckId">Deck:</label>
+            <select class="form-select" asp-for="DeckId">
+                @foreach (var item in ViewBag.Decks)
+                {
+                    @:<option @(item.Text == ViewBag.Card.Deck.DeckName ? "selected" : "") value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+
+        <h5>Are you sure to update this card?</h5>
+        <button class="btn btn-success">Update</button>
+    </div>
+</form>

@@ -1,0 +1,15 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId;
+@model GetDeckCardsByDeckIdDto;
+
+@{
+    ViewBag.Title = "Get deck cards";
+}
+
+<h1>All deck cards:</h1>
+
+@*TODO autoAdd deckId when create Card*@@*asp-route-deckId="@Model.Id"*@
+<a class="btn btn-primary" asp-controller="Cards" asp-action="CreateCard">Add new card</a>
+
+@{
+    await Html.RenderPartialAsync("_DeckCardsPartialView", Model);
+}

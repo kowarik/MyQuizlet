@@ -1,0 +1,15 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
+@model IEnumerable<GetAllCardsDto>;
+
+@{
+    ViewBag.Title = "Get cards";
+}
+
+<h1>All cards:</h1>
+
+<a class="btn btn-primary" asp-controller="Cards" asp-action="CreateCard">Create new card</a>
+
+
+@{
+    await Html.RenderPartialAsync("_CardsPartialView", Model);
+}

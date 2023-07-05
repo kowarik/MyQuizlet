@@ -1,0 +1,33 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks;
+@model IEnumerable<GetAllDecksDto>;
+
+<table class="table table-bordered table-hover table-sm">
+    <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>@nameof(GetAllDecksDto.DeckName)</th>
+            <th>@nameof(GetAllDecksDto.Description)</th>
+            <th>Options:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            foreach(var deck in Model)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td>@deck.DeckName</td>
+                    <td>@deck.Description</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-info" asp-controller="Decks" asp-action="GetDeckCards" asp-route-id="@deck.Id">Cards</a>
+                            <a class="btn btn-warning" asp-controller="Decks" asp-action="UpdateDeck" asp-route-id="@deck.Id">Update</a>
+                            <a class="btn btn-danger" asp-controller="Decks" asp-action="DeleteDeck" asp-route-id="@deck.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

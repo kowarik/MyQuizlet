@@ -1,0 +1,35 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetCardById;
+@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId;
+@model GetDeckCardsByDeckIdDto;
+
+<table class="table table-bordered table-hover table-sm">
+    <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>@nameof(GetCardByIdDto.Term)</th>
+            <th>@nameof(GetCardByIdDto.Definition)</th>
+            <th>@nameof(GetCardByIdDto.EnglishLevel)</th>
+            <th>Options:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            foreach(var card in Model.Cards)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td>@card.Term</td>
+                    <td>@card.Definition</td>
+                    <td>@card.EnglishLevel</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-warning" asp-controller="Cards" asp-action="UpdateCard" asp-route-id="@card.Id">Update</a>
+                            <a class="btn btn-danger" asp-controller="Cards" asp-action="DeleteCard" asp-route-id="@card.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

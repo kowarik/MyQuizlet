@@ -1,0 +1,15 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks;
+@model IEnumerable<GetAllDecksDto>;
+
+@{
+    ViewBag.Title = "Get decks";
+}
+
+<h1>All decks:</h1>
+
+<a class="btn btn-primary" asp-controller="Decks" asp-action="CreateDeck">Create new deck</a>
+
+
+@{
+    await Html.RenderPartialAsync("_DecksPartialView", Model);
+}

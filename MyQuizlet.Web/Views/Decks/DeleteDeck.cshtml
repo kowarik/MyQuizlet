@@ -1,0 +1,29 @@
+﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckById;
+@model GetDeckByIdDto;
+
+@{
+    ViewBag.Title = "Delete deck";
+}
+
+<h1>Delete deck</h1>
+
+<form asp-controller="Decks" asp-action="DeleteDeck" method="post">
+    <div class="row justify-content-center">
+        <a asp-controller="Decks" asp-action="GetAllDecks" class="btn btn-outline-primary">Back to Decks List</a>
+        
+        <input type="hidden" asp-for="Id" disabled />
+        
+        <div>
+            <label asp-for="DeckName" class="form-label">Deck Name:</label>
+            <input asp-for="DeckName" class="form-control" disabled />
+        </div>
+
+        <div>
+            <label asp-for="Description">Description:</label>
+            <input asp-for="Description" class="form-control" disabled />
+        </div>
+
+        <h5>Are you sure to delete this deck?</h5>
+        <button class="btn btn-success">Delete</button>
+    </div>
+</form>

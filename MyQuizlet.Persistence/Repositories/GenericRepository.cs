@@ -43,7 +43,6 @@ namespace MyQuizlet.Persistence.Repositories
         public async Task<bool> UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
-            //_dbSet.Update(entity);
             var result = await _dbContext.SaveChangesAsync();
             return result > 0;
         }

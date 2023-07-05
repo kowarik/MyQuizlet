@@ -14,11 +14,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+	app.UseDeveloperExceptionPage();
 }
 
 //app.UseAuthentication();
 //app.UseAuthorization();
+app.MapControllers();
 
+app.UseStaticFiles();
 
 app.Run();
