@@ -9,15 +9,17 @@
 
 <form asp-controller="Decks" asp-action="CreateDeck" method="post">
     <div class="row justify-content-center">
-        <a class="btn btn-outline-primary"  asp-controller="Cards" asp-action="GetAllCards">Back to Cards List</a>
+        <a class="btn btn-outline-primary" asp-controller="Decks" asp-action="GetAllDecks">Back to Decks List</a>
         <div>
             <label asp-for="DeckName" class="form-label">Deck Name:</label>
             <input class="form-control" asp-for="DeckName" placeholder="Enter" />
+            <span asp-validation-for="DeckName" class="text-danger"></span>
         </div>
 
         <div>
             <label asp-for="Description">Description:</label>
             <input class="form-control" asp-for="Description" placeholder="Enter" />
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <h5>Are you sure to create this deck?</h5>

@@ -17,11 +17,13 @@
         <div>
             <label asp-for="Term" class="form-label">Term:</label>
             <input asp-for="Term" value="@ViewBag.Card.Term" class="form-control" placeholder="Enter" />
+            <span asp-validation-for="Term" class="text-danger"></span>
         </div>
 
         <div>
             <label asp-for="Definition">Definition:</label>
             <input asp-for="Definition" value="@ViewBag.Card.Definition" class="form-control" placeholder="Enter" />
+            <span asp-validation-for="Definition" class="text-danger"></span>
         </div>
 
         <div>
@@ -32,6 +34,7 @@
                     @:<option @(item.Text == ViewBag.Card.EnglishLevel ? "selected" : "") value="@item.Value">@item.Text</option>
                 }
             </select>
+            <span asp-validation-for="EnglishLevel" class="text-danger"></span>
         </div>
 
         <div>
@@ -42,6 +45,7 @@
                     @:<option @(item.Text == ViewBag.Card.Deck.DeckName ? "selected" : "") value="@item.Value">@item.Text</option>
                 }
             </select>
+            <span asp-validation-for="DeckId" class="text-danger"></span>
         </div>
 
         <h5>Are you sure to update this card?</h5>

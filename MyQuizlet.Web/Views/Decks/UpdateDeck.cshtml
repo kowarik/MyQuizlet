@@ -16,11 +16,13 @@
         <div>
             <label asp-for="DeckName" class="form-label">Deck Name:</label>
             <input asp-for="DeckName" value="@ViewBag.Deck.DeckName" class="form-control" placeholder="Enter" />
+            <span asp-validation-for="DeckName" class="text-danger"></span>
         </div>
 
         <div>
             <label asp-for="Description">Description:</label>
             <input asp-for="Description" value="@ViewBag.Deck.Description" class="form-control" placeholder="Enter" />
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <h5>Are you sure to update this deck?</h5>

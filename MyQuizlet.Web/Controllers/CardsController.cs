@@ -50,19 +50,16 @@ namespace MyQuizlet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string errors = string.Join("\n", ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
+                var decks = await _mediator.Send(new GetDeckNamesQuery());
+                ViewBag.Decks = new SelectList(decks, "Id", "DeckName");
 
-                return BadRequest(errors);
+                return View();
             }
 
             var result = await _mediator.Send(card);
 
             if (result == false)
-            {
-                var decks = await _mediator.Send(new GetDeckNamesQuery());
-                ViewBag.Decks = new SelectList(decks, "Id", "DeckName");
-                return View();
-            }
+                return BadRequest(ModelState);
 
             return RedirectToAction("GetAllCards");
         }
@@ -84,10 +81,7 @@ namespace MyQuizlet.Web.Controllers
         {
             //TODO попробовать добавить [FromBody], чтобы Id не добавлялось в URL
             if (!ModelState.IsValid)
-            {
-                string errors = string.Join("\n", ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(errors);
-            }
+                return View();
 
             var result = await _mediator.Send(card);
 

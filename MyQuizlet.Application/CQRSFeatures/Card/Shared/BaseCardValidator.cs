@@ -27,9 +27,9 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Shared
                 .NotEmpty().WithMessage("{PropertyName} is required")
                 .NotNull();
 
-            RuleFor(c => c.DeckId)
-                .MustAsync(DeckIsExists)
-                .WithMessage("Deck doesn`t exist");                
+            //RuleFor(c => c.DeckId)
+            //    .MustAsync(DeckIsExists)
+            //    .WithMessage("Deck doesn`t exist");                
 
             _cardsRepository = cardsRepository;
             _decksRepository = decksRepository;
@@ -39,10 +39,10 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Shared
         //{
         //    return await _cardsRepository.IsTermUniqueAsync(term);
         //}
-        private async Task<bool> DeckIsExists(Guid? deckId, CancellationToken token)
-        {
-            var deck = await _decksRepository.GetByIdAsync(deckId);
-            return deck != null;
-        }
+        //private async Task<bool> DeckIsExists(Guid? deckId, CancellationToken token)
+        //{
+        //    var deck = await _decksRepository.GetByIdAsync(deckId);
+        //    return deck != null;
+        //}
     }
 }

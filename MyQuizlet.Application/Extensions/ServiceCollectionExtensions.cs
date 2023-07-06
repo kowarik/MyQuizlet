@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using MyQuizlet.Application.CQRSFeatures.Card.Shared;
+using MyQuizlet.Application.CQRSFeatures.Deck.Shared;
 using System.Reflection;
 
 namespace MyQuizlet.Application.Extensions
@@ -9,6 +13,10 @@ namespace MyQuizlet.Application.Extensions
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<BaseCardValidator>();
+            services.AddValidatorsFromAssemblyContaining<BaseDeckValidator>();
 
             return services;
         }

@@ -53,16 +53,12 @@ namespace MyQuizlet.Web.Controllers
         public async Task<IActionResult> CreateDeck(CreateDeckCommand deck)
         {
             if (!ModelState.IsValid)
-            {
-                string errors = string.Join("\n", ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-
-                return BadRequest(errors);
-            }
+                return View();
 
             var result = await _mediator.Send(deck);
 
             if (result == false)
-                return View();
+                return BadRequest();
 
             return RedirectToAction("GetAllDecks");
         }
@@ -80,10 +76,7 @@ namespace MyQuizlet.Web.Controllers
         public async Task<IActionResult> UpdateDeck(Guid id, UpdateDeckCommand deck)
         {
             if (!ModelState.IsValid)
-            {
-                string errors = string.Join("\n", ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(errors);
-            }
+                return View();
 
             var result = await _mediator.Send(deck);
 
