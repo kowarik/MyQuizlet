@@ -8,18 +8,20 @@
     </head>
     <body>
         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">MyQuizlet</a>
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" asp-controller="Home" asp-action="ChooseGame">Play Game</span></a>
-                    <a class="nav-item nav-link" asp-controller="Home" asp-action="CardsManager">Cards Manager</a>
-                
-                    @*когда не авторизован*@
-                    <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogIn">LogIn</a>
-                
-                    @*когда авторизован*@
-                    <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="ProfileSettings">Settings</a>
-                    <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogOut">LogOut</a>
+                <div class="container-fluid">
+                    <ul class="navbar-nav">
+                        <a class="nav-item nav-link" asp-controller="Home" asp-action="GameManager">Play Game</a>
+                        <a class="nav-item nav-link" asp-controller="Home" asp-action="CardsManager">Cards Manager</a>
+                    </ul>
+                    <ul class="navbar-nav navbar-right">
+                        @*когда не авторизован*@
+                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogIn">LogIn</a>
+                        @*когда авторизован*@
+                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="ProfileSettings">Settings</a>
+                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogOut">LogOut</a>
+                    </ul>
                 </div>
             </nav>
 
@@ -31,5 +33,6 @@
                 @RenderSection("footer_section", false)
             </div>
         </div>
-    </body>
+
+        </body>
 </html>

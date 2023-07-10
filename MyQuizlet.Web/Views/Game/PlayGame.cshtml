@@ -1,0 +1,55 @@
+﻿@using MyQuizlet.Application.Enums;
+@using MyQuizlet.Web.ViewModel;
+@model GetCardByOptionsViewModel;
+
+@{
+    ViewBag.Title = "Play Game";
+}
+
+<h1>Game:</h1>
+
+<a class="btn btn-primary" asp-controller="Game" asp-action="ChooseGameDetails">Back to Details</a>
+
+<form asp-controller="Game" asp-action="PlayGame" method="get">
+    <div class="row justify-content-center w-75 mx-auto">
+
+        <div class="carousel slide">
+            <div class="carousel-item active">
+                <div class="card text-center text-white bg-info" id="hider">
+                    <div class="card-header">
+                        <p>Card (EnglishLevel: @ViewBag.Card.EnglishLevel)</p>
+                    </div>
+                    <div class="card-body">
+                        <p>Term:</p>
+                        <h4 class="card-text">@ViewBag.Card.Term</h4>
+                    </div>
+                    <div class="card-body bg-gradient">
+                        <p>Definition:</p>
+                        <h4 class="card-text" id="definition-text" style="visibility: hidden;">@ViewBag.Card.Definition</h4>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" asp-controller="Game" asp-action="PlayGame" asp-route-PositionAction="@PositionAction.Previous" asp-route-Sorting="@Model.Sorting" asp-route-CardId="@Model.CardId" asp-route-DeckId="@Model.DeckId">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" asp-controller="Game" asp-action="PlayGame" asp-route-PositionAction="@PositionAction.Next" asp-route-Sorting="@Model.Sorting" asp-route-CardId="@Model.CardId" asp-route-DeckId="@Model.DeckId">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+
+    </div>
+</form>
+
+<script>
+    document.getElementById('hider').onclick = function() {
+        var definitionText = document.getElementById('definition-text');
+        if (definitionText.style.visibility === "hidden")
+        {
+            definitionText.style.visibility = "visible";
+        }
+        else
+        {
+            definitionText.style.visibility = "hidden";
+        }
+    }
+</script>

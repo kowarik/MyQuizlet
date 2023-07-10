@@ -3,6 +3,7 @@ using MyQuizlet.Application.CQRSFeatures.Card.Commands.CreateCard;
 using MyQuizlet.Application.CQRSFeatures.Card.Commands.UpdateCard;
 using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
 using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetCardById;
+using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetNextOrPreviousCard;
 using MyQuizlet.Domain.Entities;
 using MyQuizlet.Domain.Enums;
 
@@ -15,6 +16,8 @@ namespace MyQuizlet.Application.MappingProfiles
             CreateMap<Card, GetAllCardsDto>()
                 .ForMember(dest => dest.EnglishLevel, opt => opt.MapFrom(src => MapEnglishLevelEnumToString(src.EnglishLevel)));
             CreateMap<Card, GetCardByIdDto>()
+                .ForMember(dest => dest.EnglishLevel, opt => opt.MapFrom(src => MapEnglishLevelEnumToString(src.EnglishLevel)));
+            CreateMap<Card, GetNextOrPreviousCardDto>()
                 .ForMember(dest => dest.EnglishLevel, opt => opt.MapFrom(src => MapEnglishLevelEnumToString(src.EnglishLevel)));
             CreateMap<CreateCardCommand, Card>()
                 .ForMember(dest => dest.EnglishLevel, opt => opt.MapFrom(src => MapEnglishLevelStringToEnum(src.EnglishLevel)));

@@ -16,6 +16,10 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseDeveloperExceptionPage();
 }
+else
+{
+	app.UseExceptionHandler("/Error");
+}
 
 //app.UseAuthentication();
 //app.UseAuthorization();

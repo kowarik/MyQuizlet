@@ -1,0 +1,26 @@
+﻿@using MyQuizlet.Application.Enums;
+@using MyQuizlet.Web.ViewModel;
+@model GetCardByOptionsViewModel;
+
+@{
+    ViewBag.Title = "Choose game details";
+}
+
+<h1>Choose Game details before Play:</h1>
+
+<form asp-controller="Game" asp-action="PlayGame" method="get">
+    <div class="row justify-content-center w-75 mx-auto">
+
+        <div>
+            <label asp-for="Sorting">Choose cards sorting:</label>
+            <select class="form-select" asp-for="Sorting" asp-items="Html.GetEnumSelectList<Sorting>()"></select>
+        </div>
+
+        <div>
+            <label asp-for="DeckId">Choose Deck:</label>
+            <select class="form-select" asp-for="DeckId" asp-items="ViewBag.DeckNames"></select>
+        </div>
+
+        <button class="btn btn-success">Play</button>
+    </div>
+</form>

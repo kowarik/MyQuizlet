@@ -17,16 +17,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyQuizlet.Application\MyQuizlet.Application.csproj" />
     <ProjectReference Include="..\MyQuizlet.Infrastructure\MyQuizlet.Infrastructure.csproj" />
     <ProjectReference Include="..\MyQuizlet.Persistence\MyQuizlet.Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewComponents\" />
   </ItemGroup>
 
 </Project>
