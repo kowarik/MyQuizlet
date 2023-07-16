@@ -16,11 +16,14 @@
                         <a class="nav-item nav-link" asp-controller="Home" asp-action="CardsManager">Cards Manager</a>
                     </ul>
                     <ul class="navbar-nav navbar-right">
-                        @*когда не авторизован*@
-                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogIn">LogIn</a>
-                        @*когда авторизован*@
-                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="ProfileSettings">Settings</a>
-                        <a class="nav-item nav-link disabled" asp-controller="Home" asp-action="LogOut">LogOut</a>
+                        @if(User.Identity.IsAuthenticated){
+                            <a class="nav-item nav-link" asp-controller="Profile" asp-action="Settings">@User.Identity?.Name (Settings)</a>
+                            <a class="nav-item nav-link" asp-controller="Identity" asp-action="SignOut">Sign Out</a>
+                        }
+                        else
+                        {
+                            <a class="nav-item nav-link" asp-controller="Identity" asp-action="SignIn">Sign In</a>
+                        }                        
                     </ul>
                 </div>
             </nav>

@@ -1,0 +1,45 @@
+﻿@using MyQuizlet.Application.DTO;
+@using MyQuizlet.Application.Enums;
+@model SignUpDto;
+
+@{
+    ViewBag.Title = "SignUp";
+}
+
+<h1>Sign Up</h1>
+
+<form asp-controller="Identity" asp-action="SignUp" method="post">
+
+    <div class="row w-75 justify-content-center mx-auto">
+        <div class="card text-center">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Your Email:</label>
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="form-label">Password:</label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Role" class="form-label">User Role:</label>
+                    <select class="form-select" asp-for="Role" asp-items="Html.GetEnumSelectList<UserRoles>()"></select>
+                </div>
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <button type="submit" class="btn btn-primary">SignUp!</button>
+
+            </div>
+
+            <div class="card-footer">
+                <p>If you already have an account, please <a asp-action="SignIn">SignIn</a></p>
+            </div>
+        </div>
+    </div>
+
+</form>

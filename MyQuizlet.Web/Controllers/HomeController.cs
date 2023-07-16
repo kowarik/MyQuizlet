@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyQuizlet.Web.Controllers
@@ -6,6 +7,7 @@ namespace MyQuizlet.Web.Controllers
     [Controller]
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         [Route("/")]
         public IActionResult Index()
         {

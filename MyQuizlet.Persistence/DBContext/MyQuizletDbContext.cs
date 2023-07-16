@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MyQuizlet.Domain.Entities;
 using MyQuizlet.Persistence.DbConfiguration;
 
 namespace MyQuizlet.Persistence.DBContext
 {
-    public class MyQuizletDbContext : DbContext
+    public class MyQuizletDbContext : IdentityDbContext
     {
         public MyQuizletDbContext(DbContextOptions<MyQuizletDbContext> options) : base(options)
         {

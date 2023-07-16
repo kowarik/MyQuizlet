@@ -42,7 +42,7 @@
             <select class="form-select" asp-for="DeckId">
                 @foreach (var item in ViewBag.Decks)
                 {
-                    @:<option @(item.Text == ViewBag.Card.Deck.DeckName ? "selected" : "") value="@item.Value">@item.Text</option>
+                    @:<option @(item.Text == ViewBag.Card.Deck?.DeckName ? "selected" : "") value="@item?.Value">@item?.Text</option>
                 }
             </select>
             <span asp-validation-for="DeckId" class="text-danger"></span>
