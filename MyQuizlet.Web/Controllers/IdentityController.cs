@@ -78,7 +78,7 @@ namespace MyQuizlet.Web.Controllers
 
         public async Task<IActionResult> SignOut()
         {
-            _identityService.SignOutAsync();
+            await _identityService.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
