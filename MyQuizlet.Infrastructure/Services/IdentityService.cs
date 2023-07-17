@@ -2,15 +2,16 @@
 using MyQuizlet.Application.Contracts.Services;
 using MyQuizlet.Application.DTO;
 using MyQuizlet.Application.Enums;
+using MyQuizlet.Domain.IdentityEntities;
 
 namespace MyQuizlet.Infrastructure.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        public IdentityService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -21,12 +22,12 @@ namespace MyQuizlet.Infrastructure.Services
         {
             if (await _userManager.FindByEmailAsync(signUpDto.Email) == null)
             {
-                var user = new IdentityUser { Email = signUpDto.Email, UserName = signUpDto.Email };
+                var user = new ApplicationUser { Email = signUpDto.Email, UserName = signUpDto.Email };
                 var result = await _userManager.CreateAsync(user, signUpDto.Password);
 
                 if (!await _roleManager.RoleExistsAsync(signUpDto.Role.ToString()))
                 {
-                    var role = new IdentityRole { Name = signUpDto.Role.ToString() };
+                    var role = new ApplicationRole { Name = signUpDto.Role.ToString() };
                     var roleAddResult = await _roleManager.CreateAsync(role);
                     if (!roleAddResult.Succeeded)
                     {

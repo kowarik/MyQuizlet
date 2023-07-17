@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyQuizlet.Application.Contracts.Repositories;
+using MyQuizlet.Domain.IdentityEntities;
 using MyQuizlet.Persistence.DBContext;
 using MyQuizlet.Persistence.Repositories;
 
@@ -15,7 +16,7 @@ namespace MyQuizlet.Persistence.Extensions
         {
             services.AddDbContext(configuration);
             services.AddRepositories();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<MyQuizletDbContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthorization(options =>

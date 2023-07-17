@@ -17,7 +17,7 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -31,7 +31,7 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -53,27 +53,12 @@ namespace MyQuizlet.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Decks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeckName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Decks", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -94,7 +79,7 @@ namespace MyQuizlet.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -116,7 +101,7 @@ namespace MyQuizlet.Persistence.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,8 +118,8 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +142,7 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -171,6 +156,27 @@ namespace MyQuizlet.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Decks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DeckName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Decks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Decks_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -200,17 +206,17 @@ namespace MyQuizlet.Persistence.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeckId", "Definition", "EnglishLevel", "Term", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("1657dd0b-2700-4762-b2de-8be0d76598e0"), new DateTime(2023, 7, 12, 19, 53, 15, 108, DateTimeKind.Local).AddTicks(6673), null, "Яблоко", 1, "Apple", null },
-                    { new Guid("ddb98bd2-38dd-4cdf-adec-5ad9915bb84f"), new DateTime(2023, 7, 12, 19, 53, 15, 108, DateTimeKind.Local).AddTicks(6744), null, "Test", 1, "Test", null }
+                    { new Guid("23cdacbb-a785-4dc9-8136-e0085804c682"), new DateTime(2023, 7, 18, 1, 20, 5, 845, DateTimeKind.Local).AddTicks(8728), null, "Яблоко", 1, "Apple", null },
+                    { new Guid("bd1435ea-ecb2-40da-aa00-183cf2ae7fed"), new DateTime(2023, 7, 18, 1, 20, 5, 845, DateTimeKind.Local).AddTicks(8790), null, "Test", 1, "Test", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Decks",
-                columns: new[] { "Id", "CreatedDate", "DeckName", "Description", "UpdatedDate" },
+                columns: new[] { "Id", "ApplicationUserId", "CreatedDate", "DeckName", "Description", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("65362ddf-31a6-4229-a08a-5f57f2dbaaf5"), new DateTime(2023, 7, 12, 19, 53, 15, 108, DateTimeKind.Local).AddTicks(7782), "MyTestDeck2", "this is my deck", null },
-                    { new Guid("b8ddc849-f75a-4d8c-bb0a-ad2b77e7decb"), new DateTime(2023, 7, 12, 19, 53, 15, 108, DateTimeKind.Local).AddTicks(7680), "MyTestDeck1", "this is my deck", null }
+                    { new Guid("716ba6b3-170e-4f3c-a502-94a9f13b9a21"), null, new DateTime(2023, 7, 18, 1, 20, 5, 845, DateTimeKind.Local).AddTicks(9690), "MyTestDeck1", "this is my deck", null },
+                    { new Guid("fd73b034-89a7-40a8-af99-8cfae911b096"), null, new DateTime(2023, 7, 18, 1, 20, 5, 845, DateTimeKind.Local).AddTicks(9721), "MyTestDeck2", "this is my deck", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -256,6 +262,11 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "IX_Cards_DeckId",
                 table: "Cards",
                 column: "DeckId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Decks_ApplicationUserId",
+                table: "Decks",
+                column: "ApplicationUserId");
         }
 
         /// <inheritdoc />
@@ -283,10 +294,10 @@ namespace MyQuizlet.Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Decks");
 
             migrationBuilder.DropTable(
-                name: "Decks");
+                name: "AspNetUsers");
         }
     }
 }
