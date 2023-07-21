@@ -5,5 +5,6 @@ namespace MyQuizlet.Application.CQRSFeatures.Deck.Commands.CreateDeck
 {
     public class CreateDeckCommand : BaseDeckDto, IRequest<bool>
     {
+        public Guid ApplicationUserId { get; init; }
     }
 }

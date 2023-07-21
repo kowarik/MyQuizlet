@@ -12,7 +12,7 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.IsTermUnique
         }
         public async Task<bool> Handle(IsTermUniqueQuery request, CancellationToken cancellationToken)
         {
-            var isUnique = await _cardsRepository.IsTermUniqueAsync(request.Term);
+            var isUnique = await _cardsRepository.IsTermUniqueByUserAsync(request.Term);
 
             return isUnique;
         }

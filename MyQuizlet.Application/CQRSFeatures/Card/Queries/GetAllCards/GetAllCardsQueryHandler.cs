@@ -4,7 +4,7 @@ using MyQuizlet.Application.Contracts.Repositories;
 
 namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards
 {
-    public class GetAllCardsQueryHandler : IRequestHandler<GetAllCardsQuery, List<GetAllCardsDto>>
+    public class GetAllCardsQueryHandler : IRequestHandler<GetAllCardsQuery, List<GetAllCardsDto>?>
     {
         private readonly IMapper _mapper;
         private readonly ICardsRepository _cardsRepository;
@@ -13,13 +13,13 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards
             _mapper = mapper;
             _cardsRepository = cardsRepository;
         }
-        public async Task<List<GetAllCardsDto>> Handle(GetAllCardsQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetAllCardsDto>?> Handle(GetAllCardsQuery request, CancellationToken cancellationToken)
         {
-            var allCards = await _cardsRepository.GetAllAsync();
+            var allUserCards = await _cardsRepository.GetAllCardsByUserAsync();
 
-            var allCardsDto = _mapper.Map<List<GetAllCardsDto>>(allCards);
+            var allUserCardsDto = _mapper.Map<List<GetAllCardsDto>?>(allUserCards);
 
-            return allCardsDto;
+            return allUserCardsDto;
         }
     }
 }

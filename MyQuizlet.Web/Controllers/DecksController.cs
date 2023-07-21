@@ -6,6 +6,7 @@ using MyQuizlet.Application.CQRSFeatures.Deck.Commands.UpdateDeck;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckById;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId;
+using System.Security.Claims;
 
 namespace MyQuizlet.Web.Controllers
 {
@@ -44,7 +45,7 @@ namespace MyQuizlet.Web.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> CreateDeck()
+        public IActionResult CreateDeck()
         {
             return View();
         }

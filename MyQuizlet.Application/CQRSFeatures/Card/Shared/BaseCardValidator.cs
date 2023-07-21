@@ -37,7 +37,7 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Shared
 
         //private async Task<bool> CardTermUnique(string term, CancellationToken token)
         //{
-        //    return await _cardsRepository.IsTermUniqueAsync(term);
+        //    return await _cardsRepository.IsTermUniqueByUserAsync(term);
         //}
         //private async Task<bool> DeckIsExists(Guid? deckId, CancellationToken token)
         //{

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MyQuizlet.Domain.IdentityEntities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyQuizlet.Domain.Entities
 {
@@ -16,6 +17,10 @@ namespace MyQuizlet.Domain.Entities
 		public string Description { get; set; }
 
 
-        public List<Card> Cards { get; set; } = new List<Card>();
+        public List<Card>? Cards { get; set; }
+
+
+		public Guid ApplicationUserId { get; set; }
+		public ApplicationUser User { get; set; }
     }
 }

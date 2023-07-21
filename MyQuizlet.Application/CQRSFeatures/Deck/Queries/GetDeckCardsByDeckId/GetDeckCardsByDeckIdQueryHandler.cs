@@ -16,7 +16,7 @@ namespace MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId
 
         public async Task<GetDeckCardsByDeckIdDto> Handle(GetDeckCardsByDeckIdQuery request, CancellationToken cancellationToken)
         {
-            var deckCards = await _decksRepository.GetDeckCardsByDeckId(request.Id);
+            var deckCards = await _decksRepository.GetDeckCardsByDeckIdAsync(request.Id);
 
             var deckCardsDto = _mapper.Map<GetDeckCardsByDeckIdDto>(deckCards);
 

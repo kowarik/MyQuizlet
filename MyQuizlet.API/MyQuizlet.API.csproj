@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyQuizlet.Application\MyQuizlet.Application.csproj" />
-    <ProjectReference Include="..\MyQuizlet.Infrastructure\MyQuizlet.Infrastructure.csproj" />
     <ProjectReference Include="..\MyQuizlet.Persistence\MyQuizlet.Persistence.csproj" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ namespace MyQuizlet.Application.Contracts.Repositories
 {
     public interface IDecksRepository : IGenericRepository<Deck>
     {
-        Task<Deck?> GetDeckCardsByDeckId(Guid deckId);
-        Task<List<Deck>?> GetDeckNamesAsync();
+        Task<Deck?> GetDeckCardsByDeckIdAsync(Guid deckId);
+        Task<List<Deck>?> GetAllDecksByUserAsync();
     }
 }

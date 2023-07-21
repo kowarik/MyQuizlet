@@ -1,12 +1,10 @@
 using MyQuizlet.API.Middlewares;
 using MyQuizlet.Application.Extensions;
-using MyQuizlet.Infrastructure.Extensions;
 using MyQuizlet.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 builder.Services.AddControllers();

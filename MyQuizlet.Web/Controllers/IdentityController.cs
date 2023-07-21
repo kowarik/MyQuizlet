@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyQuizlet.Application.Contracts.Services;
 using MyQuizlet.Application.DTO;
@@ -83,7 +82,7 @@ namespace MyQuizlet.Web.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> AccessDenied()
+        public IActionResult AccessDenied()
         {
             return View();
         }

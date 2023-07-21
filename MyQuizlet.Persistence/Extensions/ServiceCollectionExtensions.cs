@@ -16,21 +16,22 @@ namespace MyQuizlet.Persistence.Extensions
         {
             services.AddDbContext(configuration);
             services.AddRepositories();
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<MyQuizletDbContext>()
-                .AddDefaultTokenProviders();
+
             services.AddAuthorization(options =>
             {
                 options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             });
-            services.Configure<IdentityOptions>(options =>
+            
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 //options.SignIn.RequireConfirmedEmail = true;
-            });
+            })
+            .AddEntityFrameworkStores<MyQuizletDbContext>()
+            .AddDefaultTokenProviders();
 
             return services;
         }

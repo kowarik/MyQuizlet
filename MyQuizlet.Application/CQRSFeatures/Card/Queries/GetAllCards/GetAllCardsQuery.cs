@@ -2,5 +2,5 @@
 
 namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards
 {
-    public record GetAllCardsQuery : IRequest<List<GetAllCardsDto>>;
+    public record GetAllCardsQuery : IRequest<List<GetAllCardsDto>?>;
 }

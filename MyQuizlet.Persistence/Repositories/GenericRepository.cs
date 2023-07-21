@@ -1,19 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using MyQuizlet.Application.Contracts.Repositories;
 using MyQuizlet.Domain.Entities;
 using MyQuizlet.Persistence.DBContext;
+using System.Security.Claims;
 
 namespace MyQuizlet.Persistence.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
+        private protected readonly Guid _userId;
         protected readonly MyQuizletDbContext _dbContext;
         internal DbSet<T> _dbSet;
 
-        public GenericRepository(MyQuizletDbContext dbContext)
+        public GenericRepository(MyQuizletDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
+
+            _userId = Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         public async Task<List<T>> GetAllAsync()

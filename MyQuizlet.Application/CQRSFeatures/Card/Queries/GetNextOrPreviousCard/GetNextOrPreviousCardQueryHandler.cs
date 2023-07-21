@@ -18,7 +18,7 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetNextOrPreviousCard
         public async Task<GetNextOrPreviousCardDto> Handle(GetNextOrPreviousCardQuery request, CancellationToken cancellationToken)
         {
             //get deck cards
-            var deckCards = await _decksRepository.GetDeckCardsByDeckId(request.DeckId);
+            var deckCards = await _decksRepository.GetDeckCardsByDeckIdAsync(request.DeckId);
 
             if (deckCards?.Cards.Count == 0)
             {

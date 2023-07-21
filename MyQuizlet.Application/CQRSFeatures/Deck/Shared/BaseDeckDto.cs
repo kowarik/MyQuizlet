@@ -2,7 +2,7 @@
 {
     public abstract class BaseDeckDto
     {
-        public string DeckName { get; init; } = string.Empty;
-        public string Description { get; init; } = string.Empty;
+        public string? DeckName { get; init; }
+        public string? Description { get; init; }
     }
 }

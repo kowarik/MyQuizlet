@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyQuizlet.Application.Contracts.Services;
 using MyQuizlet.Application.DTO;
-using MyQuizlet.Application.Enums;
 using MyQuizlet.Domain.IdentityEntities;
 
-namespace MyQuizlet.Infrastructure.Services
+namespace MyQuizlet.Application.Services
 {
     public class IdentityService : IIdentityService
     {
