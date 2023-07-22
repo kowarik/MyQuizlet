@@ -10,6 +10,22 @@
 @*TODO autoAdd deckId when create Card*@@*asp-route-deckId="@Model.Id"*@
 <a class="btn btn-primary" asp-controller="Cards" asp-action="CreateCard">Add new card</a>
 
+<form asp-controller="Decks" asp-action="GetDeckCards" method="get">
+    <div class="input-group">
+        <input class="form-control" name="searchString" value="@ViewBag.CurrentSearchString" placeholder="Search string" />
+        <select class="custom-select" name="searchBy">
+            @foreach (var value in ViewBag.SearchByProps)
+            {
+                <option value="@value.Value" selected="@(value.Value == ViewBag.CurrentSearchBy)">@value.Text</option>
+            }
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-primary">Search</button>
+            <a class="btn btn-danger" asp-controller="Decks" asp-action="GetDeckCards">Clear</a>
+        </div>
+    </div>
+</form>
+
 @{
     await Html.RenderPartialAsync("_DeckCardsPartialView", Model);
 }

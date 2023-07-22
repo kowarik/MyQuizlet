@@ -1,12 +1,62 @@
 ﻿@using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks;
+@using MyQuizlet.Application.Enums;
 @model IEnumerable<GetAllDecksDto>;
+
+@{
+    var currentSearchBy = ViewBag.CurrentSearchBy;
+    var currentSearchString = ViewBag.CurrentSearchString;
+    var currentSortBy = ViewBag.CurrentSortBy;
+    var nextSortOrder = ViewBag.CurrentSortOrder == Sorting.ASC ? Sorting.DESC : Sorting.ASC;
+}
 
 <table class="table table-bordered table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>#</th>
-            <th>@nameof(GetAllDecksDto.DeckName)</th>
-            <th>@nameof(GetAllDecksDto.Description)</th>
+            <th>
+                <a 
+                    asp-route-searchBy="@currentSearchBy" 
+                    asp-route-searchString="@currentSearchString" 
+                    asp-route-sortBy="@nameof(GetAllDecksDto.DeckName)" 
+                    asp-route-sortOrder="@nextSortOrder" 
+                    asp-controller="Decks" 
+                    asp-action="GetAllDecks"
+                >@nameof(GetAllDecksDto.DeckName)
+                @if (currentSortBy == nameof(GetAllDecksDto.DeckName))
+                {
+                    if(nextSortOrder == Sorting.DESC)
+                    {
+                        <i class="bi bi-sort-alpha-up"></i>
+                    }
+                    else if (nextSortOrder == Sorting.ASC)
+                    {
+                        <i class="bi bi-sort-alpha-up-alt"></i>
+                    }
+                }
+                </a>
+            </th>
+            <th>
+                <a 
+                    asp-route-searchBy="@currentSearchBy" 
+                    asp-route-searchString="@currentSearchString" 
+                    asp-route-sortBy="@nameof(GetAllDecksDto.Description)" 
+                    asp-route-sortOrder="@nextSortOrder" 
+                    asp-controller="Decks" 
+                    asp-action="GetAllDecks"
+                >@nameof(GetAllDecksDto.Description)
+                @if (currentSortBy == nameof(GetAllDecksDto.Description))
+                {
+                    if(nextSortOrder == Sorting.DESC)
+                    {
+                        <i class="bi bi-sort-alpha-up"></i>
+                    }
+                    else if (nextSortOrder == Sorting.ASC)
+                    {
+                        <i class="bi bi-sort-alpha-up-alt"></i>
+                    }
+                }
+                </a>
+            </th>
             <th>Options:</th>
         </tr>
     </thead>

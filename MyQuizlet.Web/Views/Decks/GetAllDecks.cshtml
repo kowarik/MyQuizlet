@@ -9,6 +9,21 @@
 
 <a class="btn btn-primary" asp-controller="Decks" asp-action="CreateDeck">Create new deck</a>
 
+<form asp-controller="Decks" asp-action="GetAllDecks" method="get">
+    <div class="input-group">
+        <input class="form-control" name="searchString" value="@ViewBag.CurrentSearchString" placeholder="Search string" />
+        <select class="custom-select" name="searchBy">
+            @foreach (var value in ViewBag.SearchByProps)
+            {
+                <option value="@value.Value" selected="@(value.Value == ViewBag.CurrentSearchBy)">@value.Text</option>
+            }
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-primary">Search</button>
+            <a class="btn btn-danger" asp-controller="Decks" asp-action="GetAllDecks">Clear</a>
+        </div>
+    </div>
+</form>
 
 @{
     await Html.RenderPartialAsync("_DecksPartialView", Model);

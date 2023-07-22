@@ -1,12 +1,19 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
+using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetSortedCards;
 using MyQuizlet.Application.CQRSFeatures.Deck.Commands.CreateDeck;
 using MyQuizlet.Application.CQRSFeatures.Deck.Commands.DeleteDeck;
 using MyQuizlet.Application.CQRSFeatures.Deck.Commands.UpdateDeck;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckById;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId;
-using System.Security.Claims;
+using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetSortedDecks;
+using MyQuizlet.Application.Enums;
+using MyQuizlet.Domain.Entities;
+using System.Globalization;
 
 namespace MyQuizlet.Web.Controllers
 {
@@ -22,9 +29,22 @@ namespace MyQuizlet.Web.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllDecks()
+        public async Task<IActionResult> GetAllDecks(string? searchBy, string? searchString, string? sortBy, Sorting? sortOrder)
         {
-            var decks = await _mediator.Send(new GetAllDecksQuery());
+            ViewBag.SearchByProps = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Deck Name", Value = nameof(GetAllDecksDto.DeckName) },
+                new SelectListItem { Text = "Description", Value = nameof(GetAllDecksDto.Description) },
+            };
+
+            var decks = await _mediator.Send(new GetAllDecksQuery(searchBy, searchString));
+
+            decks = await _mediator.Send(new GetSortedDecksQuery(decks, sortBy, sortOrder));
+
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentSortBy = sortBy;
+            ViewBag.CurrentSearchBy = searchBy;
+            ViewBag.CurrentSearchString = searchString;
 
             return View(decks);
         }
@@ -38,9 +58,23 @@ namespace MyQuizlet.Web.Controllers
         }
 
         [HttpGet("getcardsbyid/{id:guid}")]
-        public async Task<IActionResult> GetDeckCards(Guid id)
+        public async Task<IActionResult> GetDeckCards(Guid id, string? searchBy, string? searchString, string? sortBy, Sorting? sortOrder)
         {
-            var deckCards = await _mediator.Send(new GetDeckCardsByDeckIdQuery(id));
+            ViewBag.SearchByProps = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Term", Value = nameof(GetAllCardsDto.Term) },
+                new SelectListItem { Text = "Definition", Value = nameof(GetAllCardsDto.Definition) },
+                new SelectListItem { Text = "EnglishLevel", Value = nameof(GetAllCardsDto.EnglishLevel) },
+            };
+            var deckCards = await _mediator.Send(new GetDeckCardsByDeckIdQuery(id, searchBy, searchString));
+            
+            deckCards.Cards = await _mediator.Send(new GetSortedCardsQuery(deckCards.Cards, sortBy, sortOrder));
+
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentSortBy = sortBy;
+            ViewBag.CurrentSearchBy = searchBy;
+            ViewBag.CurrentSearchString = searchString;
+
             return View(deckCards);
         }
 

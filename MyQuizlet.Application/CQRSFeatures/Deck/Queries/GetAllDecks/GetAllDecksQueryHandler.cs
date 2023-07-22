@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyQuizlet.Application.Contracts.Repositories;
+using System.Reflection;
 
 namespace MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks
 {
@@ -17,9 +18,16 @@ namespace MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetAllDecks
         {
             var allUserDecks = await _decksRepository.GetAllDecksByUserAsync();
 
-            var allDecksDto = _mapper.Map<List<GetAllDecksDto>?>(allUserDecks);
+            var allUserDecksDto = _mapper.Map<List<GetAllDecksDto>?>(allUserDecks);
 
-            return allDecksDto;
+            if (string.IsNullOrEmpty(request.SearchString) || request.SearchBy == null)
+            {
+                return allUserDecksDto;
+            }
+
+            var propertyInfo = typeof(GetAllDecksDto).GetProperty(request.SearchBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            return allUserDecksDto?.Where(c => propertyInfo?.GetValue(c)?.ToString()?.ToLower().Contains(request.SearchString.Trim(), StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
     }
 }

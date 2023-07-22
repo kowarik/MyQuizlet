@@ -6,7 +6,9 @@ using MyQuizlet.Application.CQRSFeatures.Card.Commands.DeleteCard;
 using MyQuizlet.Application.CQRSFeatures.Card.Commands.UpdateCard;
 using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
 using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetCardById;
+using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetSortedCards;
 using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckNames;
+using MyQuizlet.Application.Enums;
 
 namespace MyQuizlet.Web.Controllers
 {
@@ -22,9 +24,23 @@ namespace MyQuizlet.Web.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllCards()
+        public async Task<IActionResult> GetAllCards(string? searchBy, string? searchString, string? sortBy, Sorting? sortOrder)
         {
-            var cards = await _mediator.Send(new GetAllCardsQuery());
+            ViewBag.SearchByProps = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Term", Value = nameof(GetAllCardsDto.Term) },
+                new SelectListItem { Text = "Definition", Value = nameof(GetAllCardsDto.Definition) },
+                new SelectListItem { Text = "EnglishLevel", Value = nameof(GetAllCardsDto.EnglishLevel) },
+            };
+
+            var cards = await _mediator.Send(new GetAllCardsQuery(searchBy, searchString));
+
+            cards = await _mediator.Send(new GetSortedCardsQuery(cards, sortBy, sortOrder));
+
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentSortBy = sortBy;
+            ViewBag.CurrentSearchBy = searchBy;
+            ViewBag.CurrentSearchString = searchString;
 
             return View(cards);
         }
@@ -33,7 +49,7 @@ namespace MyQuizlet.Web.Controllers
         public async Task<IActionResult> GetCardById(Guid id)
         {
             var card = await _mediator.Send(new GetCardByIdQuery(id));
-            
+
             return View(card);
         }
 

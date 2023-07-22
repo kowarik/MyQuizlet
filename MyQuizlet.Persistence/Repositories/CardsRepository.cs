@@ -17,6 +17,7 @@ namespace MyQuizlet.Persistence.Repositories
             return await _dbSet.Where(c => c.Deck.ApplicationUserId == _userId).AnyAsync(c => c.Term == term) == false;
         }
 
+
         public async Task<Card?> GetCardByIdWithDeckAsync(Guid id)
         {
             return await _dbSet.AsNoTracking().Include(c => c.Deck).FirstOrDefaultAsync(c => c.Id == id);

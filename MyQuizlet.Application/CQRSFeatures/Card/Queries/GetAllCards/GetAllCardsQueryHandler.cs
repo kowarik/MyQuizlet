@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyQuizlet.Application.Contracts.Repositories;
+using System.Reflection;
 
 namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards
 {
@@ -19,7 +20,14 @@ namespace MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards
 
             var allUserCardsDto = _mapper.Map<List<GetAllCardsDto>?>(allUserCards);
 
-            return allUserCardsDto;
+            if (string.IsNullOrEmpty(request.SearchString) || request.SearchBy == null)
+            {
+                return allUserCardsDto;
+            }
+
+            var propertyInfo = typeof(GetAllCardsDto).GetProperty(request.SearchBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            return allUserCardsDto?.Where(c => propertyInfo?.GetValue(c)?.ToString()?.ToLower().Contains(request.SearchString.Trim(), StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
     }
 }

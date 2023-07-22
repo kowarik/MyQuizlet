@@ -1,14 +1,86 @@
-﻿@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetCardById;
+﻿@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
+@using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetCardById;
 @using MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId;
+@using MyQuizlet.Application.Enums;
 @model GetDeckCardsByDeckIdDto;
+
+@{
+    var currentSearchBy = ViewBag.CurrentSearchBy;
+    var currentSearchString = ViewBag.CurrentSearchString;
+    var currentSortBy = ViewBag.CurrentSortBy;
+    var nextSortOrder = ViewBag.CurrentSortOrder == Sorting.ASC ? Sorting.DESC : Sorting.ASC;
+}
 
 <table class="table table-bordered table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>#</th>
-            <th>@nameof(GetCardByIdDto.Term)</th>
-            <th>@nameof(GetCardByIdDto.Definition)</th>
-            <th>@nameof(GetCardByIdDto.EnglishLevel)</th>
+            <th>
+                <a 
+                    asp-route-searchBy="@currentSearchBy" 
+                    asp-route-searchString="@currentSearchString" 
+                    asp-route-sortBy="@nameof(GetAllCardsDto.Term)" 
+                    asp-route-sortOrder="@nextSortOrder" 
+                    asp-controller="Decks" 
+                    asp-action="GetDeckCards"
+                >@nameof(GetAllCardsDto.Term)
+                @if (currentSortBy == nameof(GetAllCardsDto.Term))
+                {
+                    if(nextSortOrder == Sorting.DESC)
+                    {
+                        <i class="bi bi-sort-alpha-up"></i>
+                    }
+                    else if (nextSortOrder == Sorting.ASC)
+                    {
+                        <i class="bi bi-sort-alpha-up-alt"></i>
+                    }
+                }
+                </a>
+            </th>
+            <th>
+                <a 
+                    asp-route-searchBy="@currentSearchBy" 
+                    asp-route-searchString="@currentSearchString" 
+                    asp-route-sortBy="@nameof(GetAllCardsDto.Definition)" 
+                    asp-route-sortOrder="@nextSortOrder" 
+                    asp-controller="Decks" 
+                    asp-action="GetDeckCards"
+                >@nameof(GetAllCardsDto.Definition)
+                @if (currentSortBy == nameof(GetAllCardsDto.Definition))
+                {
+                    if(nextSortOrder == Sorting.DESC)
+                    {
+                        <i class="bi bi-sort-alpha-up"></i>
+                    }
+                    else if (nextSortOrder == Sorting.ASC)
+                    {
+                        <i class="bi bi-sort-alpha-up-alt"></i>
+                    }
+                }
+                </a>
+            </th>
+            <th>
+                <a 
+                    asp-route-searchBy="@currentSearchBy" 
+                    asp-route-searchString="@currentSearchString" 
+                    asp-route-sortBy="@nameof(GetAllCardsDto.EnglishLevel)" 
+                    asp-route-sortOrder="@nextSortOrder" 
+                    asp-controller="Decks" 
+                    asp-action="GetDeckCards"
+                >@nameof(GetAllCardsDto.EnglishLevel)
+                @if (currentSortBy == nameof(GetAllCardsDto.EnglishLevel))
+                {
+                    if(nextSortOrder == Sorting.DESC)
+                    {
+                        <i class="bi bi-sort-alpha-up"></i>
+                    }
+                    else if (nextSortOrder == Sorting.ASC)
+                    {
+                        <i class="bi bi-sort-alpha-up-alt"></i>
+                    }
+                }
+                </a>
+            </th>
             <th>Options:</th>
         </tr>
     </thead>

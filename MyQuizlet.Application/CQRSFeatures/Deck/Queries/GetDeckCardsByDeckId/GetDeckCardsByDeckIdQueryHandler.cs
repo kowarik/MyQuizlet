@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyQuizlet.Application.Contracts.Repositories;
+using MyQuizlet.Application.CQRSFeatures.Card.Queries.GetAllCards;
+using System.Reflection;
 
 namespace MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId
 {
@@ -19,6 +21,15 @@ namespace MyQuizlet.Application.CQRSFeatures.Deck.Queries.GetDeckCardsByDeckId
             var deckCards = await _decksRepository.GetDeckCardsByDeckIdAsync(request.Id);
 
             var deckCardsDto = _mapper.Map<GetDeckCardsByDeckIdDto>(deckCards);
+
+            if (string.IsNullOrEmpty(request.SearchString) || request.SearchBy == null)
+            {
+                return deckCardsDto;
+            }
+
+            var propertyInfo = typeof(GetAllCardsDto).GetProperty(request.SearchBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            deckCardsDto.Cards = deckCardsDto.Cards?.Where(c => propertyInfo?.GetValue(c)?.ToString()?.ToLower().Contains(request.SearchString.Trim(), StringComparison.OrdinalIgnoreCase) == true).ToList();
 
             return deckCardsDto;
         }

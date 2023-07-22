@@ -23,8 +23,9 @@ namespace MyQuizlet.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<GetAllCardsDto>>> GetAllCards()
         {
-            var cards = await _mediator.Send(new GetAllCardsQuery());
-            return cards;
+            //var cards = await _mediator.Send(new GetAllCardsQuery());
+            //return cards;
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
