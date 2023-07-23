@@ -22,14 +22,16 @@ namespace MyQuizlet.Persistence.DBContext
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            foreach(var entry in base.ChangeTracker.Entries<BaseEntity>()
-                .Where(q => q.State == EntityState.Added || q.State == EntityState.Modified))
+            foreach(var entry in base.ChangeTracker.Entries<BaseEntity>())
             {
-                // TODO: CreatedDate isn`t saved when UPDATE entity
-                entry.Entity.UpdatedDate = DateTime.Now;
-                if(entry.State == EntityState.Added)
+                switch (entry.State)
                 {
-                    entry.Entity.CreatedDate = DateTime.Now;
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.Now;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedDate = DateTime.Now;
+                        break;
                 }
             }
 
